@@ -1,1 +1,31 @@
-<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-22e2d736-fb83-4be2-a16c-7c775137cc01"></attachment><p><br></p>
+<attachment contenteditable="false" data-atts="%5B%5D" data-aid=".atts-22e2d736-fb83-4be2-a16c-7c775137cc01"></attachment><p><br></p><p>Mutex互斥锁得实现</p><p><br></p><pre class="ql-syntax" spellcheck="false">package main
+
+import (
+   "fmt"
+   "sync"
+)
+
+var num int
+var mtx sync.Mutex
+var wg sync.WaitGroup
+
+func add() {
+   mtx.Lock()
+   defer mtx.Unlock()
+   defer wg.Done()
+   num += 1
+}
+
+func main() {
+
+   for i := 0; i &lt; 100; i++ {
+      wg.Add(1)
+      go add()
+   }
+
+   wg.Wait()
+
+   fmt.Println("num:", num)
+
+}
+</pre><p><br></p><p><br></p>
